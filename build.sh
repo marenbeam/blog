@@ -13,5 +13,5 @@ echo '<script async defer src="https://www.recurse-scout.com/loader.js?t=9ba4699
 echo '<br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>' >> footer.html
 echo "<footer>" >> footer.html
 
-pandoc $file --from markdown --to html --css style-blog.css --output "${file%.*}.html" --highlight-style pygments --filter ./rainbow.py --include-after-body footer.html --include-before-body header.html
+pandoc $file --from markdown --to html --css style.css --output "${file%.*}.html" --highlight-style pygments --filter ./rainbow.py --include-after-body footer.html --include-before-body header.html
 firefox "${file%.*}.html"
