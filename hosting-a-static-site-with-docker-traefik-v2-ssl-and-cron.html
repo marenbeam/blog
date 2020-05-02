@@ -84,7 +84,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Hosting a static site with Docker, Traefik v2, SSL, and cron</h1>
 </header>
 <h1 id="hosting a static site with docker, traefik v2, ssl, and cron"><span style="color:#ff0000">h</span><span style="color:#00ff00">o</span><span style="color:#ffff00">s</span><span style="color:#0000ff">t</span><span style="color:#ff00ff">i</span><span style="color:#00ffff">n</span><span style="color:#ff0000">g</span> <span style="color:#00ff00">a</span> <span style="color:#ffff00">s</span><span style="color:#0000ff">t</span><span style="color:#ff00ff">a</span><span style="color:#00ffff">t</span><span style="color:#ff0000">i</span><span style="color:#00ff00">c</span> <span style="color:#ffff00">s</span><span style="color:#0000ff">i</span><span style="color:#ff00ff">t</span><span style="color:#00ffff">e</span> <span style="color:#ff0000">w</span><span style="color:#00ff00">i</span><span style="color:#ffff00">t</span><span style="color:#0000ff">h</span> <span style="color:#ff00ff">d</span><span style="color:#00ffff">o</span><span style="color:#ff0000">c</span><span style="color:#00ff00">k</span><span style="color:#ffff00">e</span><span style="color:#0000ff">r</span><span style="color:#ff00ff">,</span> <span style="color:#00ffff">t</span><span style="color:#ff0000">r</span><span style="color:#00ff00">a</span><span style="color:#ffff00">e</span><span style="color:#0000ff">f</span><span style="color:#ff00ff">i</span><span style="color:#00ffff">k</span> <span style="color:#ff0000">v</span><span style="color:#00ff00">2</span><span style="color:#ffff00">,</span> <span style="color:#0000ff">s</span><span style="color:#ff00ff">s</span><span style="color:#00ffff">l</span><span style="color:#ff0000">,</span> <span style="color:#00ff00">a</span><span style="color:#ffff00">n</span><span style="color:#0000ff">d</span> <span style="color:#ff00ff">c</span><span style="color:#00ffff">r</span><span style="color:#ff0000">o</span><span style="color:#00ff00">n</span></h1>
-<p>Just to be clear, this is how I host <a href="https://marenbeam.net">this website</a>.</p>
+<p>Just to be clear, this is how I host <a href="https://maren.hup.is">this website</a>.</p>
 <p>I hope this post might be helpful for someone using Traefik for the first time, someone moving from Traefik v1 to v2, or someone who’s getting familiar with docker compose.</p>
 <h2 id="my-use-case-and-constraints">My use case and constraints</h2>
 <ul>
@@ -292,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>And that’s it!</strong> You’ve now got a single node docker swarm cluster; traefik accepting incoming requests, routing them to the appropriate service, and programmatically handling SSL provisioning and termination; an nginx container serving your static site over https; and a cute little cronjob syncing and deploying all changes merged to <code>master</code> at the top of each hour :)</p>
 <p>Thanks so much for reading!</p>
 <footer>
-last edited on Sat 02 May 2020 05:13:38 PM EDT
+last edited on Sat 02 May 2020 05:21:10 PM EDT
 <script async defer src="https://www.recurse-scout.com/loader.js?t=9ba46999660e9e2af4e35e19d38328d1"></script>
 <br><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
 <footer>
