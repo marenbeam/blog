@@ -5,12 +5,12 @@ Just to be clear, this is how I host [this website](https://maren.hup.is).
 
 I hope this post might be helpful for someone using Traefik for the first time, someone moving from Traefik v1 to v2, or someone who's getting familiar with docker compose.
 
-## My use case and constraints
+## my use case and constraints
 
 * I want to host many different things on one box. Currently, the most [boring](https://mcfunley.com/choose-boring-technology) way to do that is with docker.
 * My previous setup, though technically simple, *felt* overwhelming because I was holding [state](https://en.wikipedia.org/wiki/State_(computer_science)) in my head rather than in text files. Docker would force me to put more system state in text files.
 
-## Parts:
+## parts:
 
 * Debian installed on the server (hereafter referred to as "the host")
 * Docker installed on the host
@@ -21,7 +21,7 @@ I hope this post might be helpful for someone using Traefik for the first time, 
 
 **Why swarm mode and traefik?** I’ll touch on that in a future post, where I’ll explore how and why you might host a single-node docker cluster in swarm mode.
 
-## Prep:
+## prep:
 
 * Install Debian on the host, and set up SSH
 * Install [docker](https://docs.docker.com/install/linux/docker-ce/debian/) and [docker compose](https://docs.docker.com/compose/install/#install-compose-on-linux-systems) on the host
@@ -53,7 +53,7 @@ $ vim ~/docker/traefik/docker-compose.yaml
 
 Now we can really start doing stuff!
 
-## Configure traefik
+## configure traefik
 
 First we're going to set up traefik. Paste this configuration into the file you just opened, and edit as necessary for your use case. At the very least, you'll need to change the email address. I've included comments explaining most lines.
 
@@ -157,7 +157,7 @@ If you see one traefik container running, that's great! You could unplug your se
 
 Now let's configure our actual website.
 
-## Configure the website
+## configure the website
 
 First let's attack the docker service configuration. Open a new compose file:
 
@@ -222,7 +222,7 @@ If you get a response (or a page) containing only `hello world` -- success!
 
 Now we can do the last step:  setting up automatic deployments with GitHub and cron. If you don't already have a static site you'd like to use for this, you can use [this template](https://github.com/marenbeam/mynamedotcom) to start with.
 
-## Set up automatic deployments
+## set up automatic deployments
 
 Our end-goal workflow for making changes to our site is:
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 .title {
   display: none;
@@ -19,6 +19,10 @@ body {
 h1 {
   font-style: italic;
   font-weight: normal;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: 'PT Serif', serif;
 }
 
 .sourceCode {
