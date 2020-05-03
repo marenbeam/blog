@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Mono&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 .title {
   display: none;
@@ -17,12 +17,11 @@ body {
 }
 
 h1 {
-  font-style: italic;
   font-weight: normal;
 }
 
-h2, h3, h4, h5, h6 {
-  font-family: 'PT Serif', serif;
+h1, h2, h3, h4, h5, h6 {
+  font-style: italic;
 }
 
 .sourceCode {
@@ -34,7 +33,7 @@ pre {
 }
 
 code {
-  font-family: 'PT Mono', monospace;
+  font-family: 'Inconsolata', monospace;
   font-size: 12px;
 }
 
