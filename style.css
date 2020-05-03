@@ -34,7 +34,8 @@ pre {
 
 code {
   font-family: 'Inconsolata', monospace;
-  font-size: 12px;
+  font-size: .9em;
+  background: #eeeeee;
 }
 
 a {
