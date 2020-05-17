@@ -9,7 +9,7 @@ file=$1
 rm footer.html
 echo '<footer>' >> footer.html
 echo "Last edited on $(date)" >> footer.html
-echo '<hr>' >> footer.html
+echo '<hr><br>' >> footer.html
 echo 'Content licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a><br>' >> footer.html
 echo 'Source code licensed under <a href="https://opensource.org/licenses/MIT">MIT</a> unless otherwise noted<br>' >> footer.html
 echo '<br>' >> footer.html
