@@ -2,6 +2,6 @@
 
 set -eou pipefail
 
-git add ./
+git add .
 git commit -m "update blog"
 git push
