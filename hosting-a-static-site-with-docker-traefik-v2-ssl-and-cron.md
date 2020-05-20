@@ -1,7 +1,7 @@
 % Hosting a static site with Docker, Traefik v2, SSL, and cron
 # hosting a static site with docker, traefik v2, ssl, and cron
 
-Just to be clear, this is how I host [this website](https://maren.hup.is).
+For clarity, this is how I host [this website](https://maren.hup.is).
 
 I hope this post might be helpful for someone using Traefik for the first time, someone moving from Traefik v1 to v2, or someone who's getting familiar with docker compose.
 
@@ -19,7 +19,7 @@ I hope this post might be helpful for someone using Traefik for the first time, 
 * [Swarm mode](https://docs.docker.com/engine/swarm/) enabled on the host
 * Automatic deploy/update with GitHub and [cron](https://en.wikipedia.org/wiki/Cron)
 
-**Why swarm mode and traefik?** I’ll touch on that in a future post, where I’ll explore how and why you might host a single-node docker cluster in swarm mode.
+Why swarm mode and traefik? I think swarm gets you most of the declarative things that make deployment easy, without the wild overhead of Kubernetes. I'm using traefik because it's what I know and it hasn't let me down yet! Also, the SSL story is very well laid out.
 
 ## prep:
 
@@ -29,7 +29,7 @@ I hope this post might be helpful for someone using Traefik for the first time, 
 * Set some sane `ufw` rules on the host
 * Go to your DNS provider, and create an [A record](https://en.wikipedia.org/wiki/List_of_DNS_record_types) for `mywebsite.com` that points to the IP address of your host
 
-**SSH into the host**, and decide where you want all your docker service configurations to live. I put mine in `~/docker`. They could all go in one `docker-compose.yaml` file, but I put mine in different directories because I have unrelated services running on the same host. If you adhere to the same framework, then you'll want a parent folder for everything, a folder for the ingress controller configuration, a folder for the actual website configuration, and a folder for the source code of the website itself.
+SSH into the host and decide where you want all your docker service configurations to live. I put mine in `~/docker`. They could all go in one `docker-compose.yaml` file, but I put mine in different directories because I have unrelated services running on the same host. If you adhere to the same framework, then you'll want a parent folder for everything, a folder for the ingress controller configuration, a folder for the actual website configuration, and a folder for the source code of the website itself.
 
 ```bash
 $ mkdir -p ~/docker/traefik
@@ -144,9 +144,9 @@ $ touch ~/docker/traefik/acme.json
 $ chmod 600 ~/docker/traefik/acme.json
 ```
 
-And that's truly the end of the traefik configuration :)
+And that's *actually* the end of the traefik configuration.
 
-One thing that traefik has is [a fancy dashboard](https://docs.traefik.io/v2.0/operations/dashboard/). For clarity of configuration, we've not set that up. Since we've not set that up, and we haven't deployed our website yet, we don't currently have a good way to test our setup. At the moment, the best you can do is deploy traefik and then check to see if it's running. **Reminder**:  we're deploying with `docker stack deploy` because this is a swarm service.
+One thing that traefik has is [a fancy dashboard](https://docs.traefik.io/v2.0/operations/dashboard/). For clarity of configuration, we've not set that up. Since we've not set that up, and we haven't deployed our website yet, we don't currently have a good way to test our setup. At the moment, the best you can do is deploy traefik and then check to see if it's running. We're deploying with `docker stack deploy` because this is a swarm service.
 
 ```bash
 $ docker stack deploy --compose-file ~/docker/traefik/docker-compose.yaml traefik
@@ -204,14 +204,14 @@ networks:
     external: true
 ```
 
-**Now we can do a quick test** to see whether everything's working up to this point.
+Now we can do a quick test to see whether everything's working up to this point.
 
 ```bash
 $ echo 'hello world' > ~/docker/mywebsite.com/site/index.html
 $ docker stack deploy --compose-file ~/docker/mywebsite/docker-compose.yaml mywebsite
 ```
 
-Wait for 30 seconds, just for good measure :)  Consider making some tea!
+Wait for 30 seconds, just for good measure.  Consider making some tea!
 Then, visit `mywebsite.com` in a browser, or on your local machine:
 
 ```bash
@@ -230,13 +230,13 @@ Our end-goal workflow for making changes to our site is:
 1. Assuming our source code is in a public repo on GitHub, commit our changes and run `git push`
 1. At the top of the next hour, our changes are visible on the internet
 
-We're going to use a cron job running on the host to achieve this. **Yes, this is a pretty funny combination of fancy-pants new tech (traefik, swarm mode, etc.), and timeless old-school tech (cron)**. We *could* have a deployment pipeline that builds our site into a container for us when we push to master, and then pulls the image from a private container registry. However, such a solution is overengineered for my particular use case. For the most part, the rest of the stuff running on my server is Other People's Software that I use to collaborate with friends on projects or to [self-host](https://github.com/awesome-selfhosted/awesome-selfhosted) things I use in my day-to-day life. That means I'm using other people's compose files, and pulling other people's public images -- none of which requires setting up my own CI/CD, managing private keys on the host, or managing my own infrastructure outside of the server itself. So I want to avoid overly-complex solutions for hosting an ultra-simple personal website, with the caveat that it needs to be served from docker since that's what the rest of my setup requires.
+We're going to use a cron job running on the host to achieve this. Yeah, this is a pretty funny combination of new computer (traefik, swarm mode, etc.), and old computer (cron). But do you want to set up a whole CI pipeline for a personal, static website? Me neither! I think cron is perfect for something like this.
 
-Moving on, we're going to skip over creating a new repo and just work with [this template](https://github.com/marenbeam/mynamedotcom) (which you should absolutely feel free to use for your own website!)
+We're going to skip over creating a new repo and just work with [this template](https://github.com/marenbeam/mynamedotcom) (which you should absolutely feel free to use for your own website!)
 
 Assuming you've forked my repo, or are otherwise set up with a git repo you'd like to use, now we just need to set up a cron job on our host that'll pull the repo each hour and copy it into `~/docker/mywebsite.com/site` for nginx to serve.
 
-First, **SSH into the host**, and:
+First, SSH into the host. Then:
 
 ```bash
 $ mkdir ~/cronjobs
@@ -290,6 +290,6 @@ And in that file add the line:
 @hourly ~/cronjobs/update-my-website-dot-com.sh
 ```
 
-**And that's it!** You've now got a single node docker swarm cluster; traefik accepting incoming requests, routing them to the appropriate service, and programmatically handling SSL provisioning and termination; an nginx container serving your static site over https; and a cute little cronjob syncing and deploying all changes merged to `master` at the top of each hour :)
+And that's it! You've now got a single node docker swarm cluster; traefik accepting incoming requests, routing them to the appropriate service, and programmatically handling SSL provisioning and termination; an nginx container serving your static site over https; and a simple cronjob reliably syncing and deploying all changes merged to `master` at the top of each hour.
 
 Thanks so much for reading!

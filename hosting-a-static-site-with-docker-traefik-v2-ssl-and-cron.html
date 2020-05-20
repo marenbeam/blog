@@ -78,13 +78,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </head>
 <body>
 <header>
-    <a href="https://maren.hup.is"><span style="color:#ff0000">M</span><span style="color:#00ff00">a</span><span style="color:#ffff00">r</span><span style="color:#0000ff">e</span><span style="color:#ff00ff">n </span><span style="color:#00ffff">B</span><span style="color:#ff0000">e</span><span style="color:#00ff00">a</span><span style="color:#ffff00">m</span></a>
+    <a href="https://maren.hup.is"><span style="color:#ff0000">m</span><span style="color:#00ff00">a</span><span style="color:#ffff00">r</span><span style="color:#0000ff">e</span><span style="color:#ff00ff">n </span><span style="color:#00ffff">b</span><span style="color:#ff0000">e</span><span style="color:#00ff00">a</span><span style="color:#ffff00">m</span></a>
 </header>
 <header>
 <h1 class="title">Hosting a static site with Docker, Traefik v2, SSL, and cron</h1>
 </header>
 <h1 id="hosting a static site with docker, traefik v2, ssl, and cron"><span style="color:#ff0000">h</span><span style="color:#00ff00">o</span><span style="color:#ffff00">s</span><span style="color:#0000ff">t</span><span style="color:#ff00ff">i</span><span style="color:#00ffff">n</span><span style="color:#ff0000">g</span> <span style="color:#00ff00">a</span> <span style="color:#ffff00">s</span><span style="color:#0000ff">t</span><span style="color:#ff00ff">a</span><span style="color:#00ffff">t</span><span style="color:#ff0000">i</span><span style="color:#00ff00">c</span> <span style="color:#ffff00">s</span><span style="color:#0000ff">i</span><span style="color:#ff00ff">t</span><span style="color:#00ffff">e</span> <span style="color:#ff0000">w</span><span style="color:#00ff00">i</span><span style="color:#ffff00">t</span><span style="color:#0000ff">h</span> <span style="color:#ff00ff">d</span><span style="color:#00ffff">o</span><span style="color:#ff0000">c</span><span style="color:#00ff00">k</span><span style="color:#ffff00">e</span><span style="color:#0000ff">r</span><span style="color:#ff00ff">,</span> <span style="color:#00ffff">t</span><span style="color:#ff0000">r</span><span style="color:#00ff00">a</span><span style="color:#ffff00">e</span><span style="color:#0000ff">f</span><span style="color:#ff00ff">i</span><span style="color:#00ffff">k</span> <span style="color:#ff0000">v</span><span style="color:#00ff00">2</span><span style="color:#ffff00">,</span> <span style="color:#0000ff">s</span><span style="color:#ff00ff">s</span><span style="color:#00ffff">l</span><span style="color:#ff0000">,</span> <span style="color:#00ff00">a</span><span style="color:#ffff00">n</span><span style="color:#0000ff">d</span> <span style="color:#ff00ff">c</span><span style="color:#00ffff">r</span><span style="color:#ff0000">o</span><span style="color:#00ff00">n</span></h1>
-<p>Just to be clear, this is how I host <a href="https://maren.hup.is">this website</a>.</p>
+<p>For clarity, this is how I host <a href="https://maren.hup.is">this website</a>.</p>
 <p>I hope this post might be helpful for someone using Traefik for the first time, someone moving from Traefik v1 to v2, or someone who’s getting familiar with docker compose.</p>
 <h2 id="my-use-case-and-constraints">my use case and constraints</h2>
 <ul>
@@ -102,7 +102,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://docs.docker.com/engine/swarm/">Swarm mode</a> enabled on the host</li>
 <li>Automatic deploy/update with GitHub and <a href="https://en.wikipedia.org/wiki/Cron">cron</a></li>
 </ul>
-<p><strong>Why swarm mode and traefik?</strong> I’ll touch on that in a future post, where I’ll explore how and why you might host a single-node docker cluster in swarm mode.</p>
+<p>Why swarm mode and traefik? I think swarm gets you most of the declarative things that make deployment easy, without the wild overhead of Kubernetes. I’m using traefik because it’s what I know and it hasn’t let me down yet! Also, the SSL story is very well laid out.</p>
 <h2 id="prep">prep:</h2>
 <ul>
 <li>Install Debian on the host, and set up SSH</li>
@@ -111,7 +111,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Set some sane <code>ufw</code> rules on the host</li>
 <li>Go to your DNS provider, and create an <a href="https://en.wikipedia.org/wiki/List_of_DNS_record_types">A record</a> for <code>mywebsite.com</code> that points to the IP address of your host</li>
 </ul>
-<p><strong>SSH into the host</strong>, and decide where you want all your docker service configurations to live. I put mine in <code>~/docker</code>. They could all go in one <code>docker-compose.yaml</code> file, but I put mine in different directories because I have unrelated services running on the same host. If you adhere to the same framework, then you’ll want a parent folder for everything, a folder for the ingress controller configuration, a folder for the actual website configuration, and a folder for the source code of the website itself.</p>
+<p>SSH into the host and decide where you want all your docker service configurations to live. I put mine in <code>~/docker</code>. They could all go in one <code>docker-compose.yaml</code> file, but I put mine in different directories because I have unrelated services running on the same host. If you adhere to the same framework, then you’ll want a parent folder for everything, a folder for the ingress controller configuration, a folder for the actual website configuration, and a folder for the source code of the website itself.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1">$ <span class="fu">mkdir</span> -p ~/docker/traefik</a>
 <a class="sourceLine" id="cb1-2" title="2">$ <span class="fu">mkdir</span> -p ~/docker/mywebsite.com/site</a></code></pre></div>
 <p>And for our last piece of host-setup, we need to enable swarm mode and create a docker network for our services to use.</p>
@@ -202,8 +202,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Before starting traefik, let’s create and set permissions for the <code>acme.json</code> file where our certificates will be stored. This file will be full of mission-critical secrets, so it’s important to do this right.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1">$ <span class="fu">touch</span> ~/docker/traefik/acme.json</a>
 <a class="sourceLine" id="cb5-2" title="2">$ <span class="fu">chmod</span> 600 ~/docker/traefik/acme.json</a></code></pre></div>
-<p>And that’s truly the end of the traefik configuration :)</p>
-<p>One thing that traefik has is <a href="https://docs.traefik.io/v2.0/operations/dashboard/">a fancy dashboard</a>. For clarity of configuration, we’ve not set that up. Since we’ve not set that up, and we haven’t deployed our website yet, we don’t currently have a good way to test our setup. At the moment, the best you can do is deploy traefik and then check to see if it’s running. <strong>Reminder</strong>: we’re deploying with <code>docker stack deploy</code> because this is a swarm service.</p>
+<p>And that’s <em>actually</em> the end of the traefik configuration.</p>
+<p>One thing that traefik has is <a href="https://docs.traefik.io/v2.0/operations/dashboard/">a fancy dashboard</a>. For clarity of configuration, we’ve not set that up. Since we’ve not set that up, and we haven’t deployed our website yet, we don’t currently have a good way to test our setup. At the moment, the best you can do is deploy traefik and then check to see if it’s running. We’re deploying with <code>docker stack deploy</code> because this is a swarm service.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" title="1">$ <span class="ex">docker</span> stack deploy --compose-file ~/docker/traefik/docker-compose.yaml traefik</a>
 <a class="sourceLine" id="cb6-2" title="2">$ <span class="ex">docker</span> container ls</a></code></pre></div>
 <p>If you see one traefik container running, that’s great! You could unplug your server from the wall right now (<a href="https://unix.stackexchange.com/questions/12699/do-journaling-filesystems-guarantee-against-corruption-after-a-power-failure">not recommended</a>), plug it back in, and the traefik service would automatically come back up as soon as docker was able to make it happen.</p>
@@ -246,10 +246,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb8-32" title="32"><span class="fu">networks:</span></a>
 <a class="sourceLine" id="cb8-33" title="33">  <span class="fu">proxy:</span></a>
 <a class="sourceLine" id="cb8-34" title="34">    <span class="fu">external:</span><span class="at"> </span><span class="ch">true</span></a></code></pre></div>
-<p><strong>Now we can do a quick test</strong> to see whether everything’s working up to this point.</p>
+<p>Now we can do a quick test to see whether everything’s working up to this point.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1">$ <span class="bu">echo</span> <span class="st">&#39;hello world&#39;</span> <span class="op">&gt;</span> ~/docker/mywebsite.com/site/index.html</a>
 <a class="sourceLine" id="cb9-2" title="2">$ <span class="ex">docker</span> stack deploy --compose-file ~/docker/mywebsite/docker-compose.yaml mywebsite</a></code></pre></div>
-<p>Wait for 30 seconds, just for good measure :) Consider making some tea! Then, visit <code>mywebsite.com</code> in a browser, or on your local machine:</p>
+<p>Wait for 30 seconds, just for good measure. Consider making some tea! Then, visit <code>mywebsite.com</code> in a browser, or on your local machine:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" title="1">$ <span class="ex">curl</span> https://mywebsite.com</a></code></pre></div>
 <p>If you get a response (or a page) containing only <code>hello world</code> – success!</p>
 <p>Now we can do the last step: setting up automatic deployments with GitHub and cron. If you don’t already have a static site you’d like to use for this, you can use <a href="https://github.com/marenbeam/mynamedotcom">this template</a> to start with.</p>
@@ -260,10 +260,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Assuming our source code is in a public repo on GitHub, commit our changes and run <code>git push</code></li>
 <li>At the top of the next hour, our changes are visible on the internet</li>
 </ol>
-<p>We’re going to use a cron job running on the host to achieve this. <strong>Yes, this is a pretty funny combination of fancy-pants new tech (traefik, swarm mode, etc.), and timeless old-school tech (cron)</strong>. We <em>could</em> have a deployment pipeline that builds our site into a container for us when we push to master, and then pulls the image from a private container registry. However, such a solution is overengineered for my particular use case. For the most part, the rest of the stuff running on my server is Other People’s Software that I use to collaborate with friends on projects or to <a href="https://github.com/awesome-selfhosted/awesome-selfhosted">self-host</a> things I use in my day-to-day life. That means I’m using other people’s compose files, and pulling other people’s public images – none of which requires setting up my own CI/CD, managing private keys on the host, or managing my own infrastructure outside of the server itself. So I want to avoid overly-complex solutions for hosting an ultra-simple personal website, with the caveat that it needs to be served from docker since that’s what the rest of my setup requires.</p>
-<p>Moving on, we’re going to skip over creating a new repo and just work with <a href="https://github.com/marenbeam/mynamedotcom">this template</a> (which you should absolutely feel free to use for your own website!)</p>
+<p>We’re going to use a cron job running on the host to achieve this. Yeah, this is a pretty funny combination of new computer (traefik, swarm mode, etc.), and old computer (cron). But do you want to set up a whole CI pipeline for a personal, static website? Me neither! I think cron is perfect for something like this.</p>
+<p>We’re going to skip over creating a new repo and just work with <a href="https://github.com/marenbeam/mynamedotcom">this template</a> (which you should absolutely feel free to use for your own website!)</p>
 <p>Assuming you’ve forked my repo, or are otherwise set up with a git repo you’d like to use, now we just need to set up a cron job on our host that’ll pull the repo each hour and copy it into <code>~/docker/mywebsite.com/site</code> for nginx to serve.</p>
-<p>First, <strong>SSH into the host</strong>, and:</p>
+<p>First, SSH into the host. Then:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1">$ <span class="fu">mkdir</span> ~/cronjobs</a>
 <a class="sourceLine" id="cb11-2" title="2">$ <span class="fu">mkdir</span> ~/.mywebsite.com</a>
 <a class="sourceLine" id="cb11-3" title="3">$ <span class="ex">vim</span> ~/cronjobs/update-my-website-dot-com.sh</a></code></pre></div>
@@ -289,10 +289,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" title="1">$ <span class="ex">crontab</span> -e</a></code></pre></div>
 <p>And in that file add the line:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="ex">@hourly</span> ~/cronjobs/update-my-website-dot-com.sh</a></code></pre></div>
-<p><strong>And that’s it!</strong> You’ve now got a single node docker swarm cluster; traefik accepting incoming requests, routing them to the appropriate service, and programmatically handling SSL provisioning and termination; an nginx container serving your static site over https; and a cute little cronjob syncing and deploying all changes merged to <code>master</code> at the top of each hour :)</p>
+<p>And that’s it! You’ve now got a single node docker swarm cluster; traefik accepting incoming requests, routing them to the appropriate service, and programmatically handling SSL provisioning and termination; an nginx container serving your static site over https; and a simple cronjob reliably syncing and deploying all changes merged to <code>master</code> at the top of each hour.</p>
 <p>Thanks so much for reading!</p>
 <footer>
-Last edited on Sun 17 May 2020 01:17:06 PM EDT
+Last edited on Wed 20 May 2020 07:28:57 PM EDT
 <hr><br>
 Content licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a><br>
 Source code licensed under <a href="https://opensource.org/licenses/MIT">MIT</a> unless otherwise noted<br>
