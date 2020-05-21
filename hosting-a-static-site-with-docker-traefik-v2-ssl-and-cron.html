@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
   <meta charset="utf-8" />
+<meta http-equiv="Cache-Control" content="no-store" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Hosting a static site with Docker, Traefik v2, SSL, and cron</title>
@@ -292,7 +293,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>And that’s it! You’ve now got a single node docker swarm cluster; traefik accepting incoming requests, routing them to the appropriate service, and programmatically handling SSL provisioning and termination; an nginx container serving your static site over https; and a simple cronjob reliably syncing and deploying all changes merged to <code>master</code> at the top of each hour.</p>
 <p>Thanks so much for reading!</p>
 <footer>
-Last edited on Wed 20 May 2020 07:28:57 PM EDT
+Last edited on Wed 20 May 2020 09:50:25 PM EDT
 <hr><br>
 Content licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a><br>
 Source code licensed under <a href="https://opensource.org/licenses/MIT">MIT</a> unless otherwise noted<br>
