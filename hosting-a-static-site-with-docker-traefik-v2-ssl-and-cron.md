@@ -1,8 +1,6 @@
 % Hosting a static site with Docker, Traefik v2, SSL, and cron
 # hosting a static site with docker, traefik v2, ssl, and cron
 
-For clarity, this is how I host [this website](https://maren.hup.is).
-
 I hope this post might be helpful for someone using Traefik for the first time, someone moving from Traefik v1 to v2, or someone who's getting familiar with docker compose.
 
 ## my use case and constraints

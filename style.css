@@ -30,18 +30,25 @@ h1, h2, h3, h4, h5, h6 {
   font-style: italic;
 }
 
-.sourceCode {
-  background: #eeeeee;
-}
-
-pre {
-  padding: 10px
-}
 
 code {
   font-family: 'Liberation Mono', monospace;
   font-size: .8em;
   background: #eeeeee;
+  border-radius: 3px;
+}
+
+code:not(.sourceCode) {
+  padding: 0em .2em;
+}
+
+.sourceCode {
+  background: #eeeeee;
+  border-radius: 3px;
+}
+
+pre {
+  padding: 10px;
 }
 
 a {
